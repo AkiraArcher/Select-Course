@@ -1,0 +1,192 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Select Course</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="{% static 'vendor/metisMenu/metisMenu.min.css' %}" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="{% static 'dist/css/sb-admin-2.css' %}" rel="stylesheet">
+
+    <!-- Morris Charts CSS -->
+    <link href="{% static 'vendor/morrisjs/morris.css' %}" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="{% static 'vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- nav -->
+        {% include 'nav.html' %}
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Students</h1>
+                </div>
+                <!-- 大标题 -->
+            </div>
+
+            <div class="row">
+                <div class="col-lg-8">
+                    <!--填写信息-->
+                    <div class="form row">
+                        <form action="{% url 'query_student' %}" method="post" class="form-horizontal col-sm-offset-3 col-md-offset-3" >
+                            {% if code == None %}
+                            <h3 class="form-title">Please enter the id or the name: </h3>
+                                <!-- 搜索框 -->
+                                <br>
+                                <div class="sidebar-search">
+                                    <div class="input-group custom-search-form">
+                                        <input type="text" value="" name = "sid" style= "width:49%;margin:0 2% 0 0;float:left;" class="form-control" placeholder="Search by id (required)">
+                                        <input type="text" value="" name = "sname" style= "width:49%;float:left;" class="form-control" placeholder="Search by name">
+
+                                        <span class="input-group-btn">
+                                        <button class="btn btn-default" type="submit">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </span>
+                                    </div>
+                                    <!-- /input-group -->
+                                </div>
+                            {% endif %}
+
+                            {% if code != None and code == -1 %}
+                            <h3 class="form-title" style="color:red">Not Found</h3>
+                            {% endif %}
+                        </form>
+                        {% if code != None and code == 1 %}
+                        <h3 class="form-title" style="color:green">{{ ss }}</h3>
+
+                        <br>
+                        <div class="col-lg-10">
+                            <div class="table-responsive">
+
+                                <h4><span class="label label-info">学生:</span></h4>
+                                <table class="table table-bordered table-hover table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>学号</th>
+                                            <th>姓名</th>
+                                            <th>性别</th>
+                                            <th>入学年龄</th>
+                                            <th>入学年份</th>
+                                            <th>班级</th>
+                                            <th>加权平均分</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr>
+                                            <td>{{ student.id }}</td>
+                                            <td>{{ student.sid }}</td>
+                                            <td>{{ student.sname }}</td>
+                                            <td>
+                                                {% if student.gender == 0 %}
+                                                    女
+                                                {% endif %}
+                                                {% if student.gender == 1 %}
+                                                    男
+                                                {% endif %}
+                                            </td>
+
+                                            <td>{{ student.start_age }}</td>
+                                            <td>{{ student.start_year }}</td>
+                                            <td>{{ student.squad }}</td>
+                                            <td>{{ weight }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <h4><span class="label label-info">选课情况:</span></h4>
+                                <table class="table table-bordered table-hover table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>课程编号</th>
+                                                    <th>课程名称</th>
+                                                    <th>老师</th>
+                                                    <th>学分</th>
+                                                    <th>年级</th>
+                                                    <th>取消年份</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                {% for s in selects %}
+                                                <tr>
+                                                    <td>{{ s.course.id }}</td>
+                                                    <td>{{ s.course.cid }}</td>
+                                                    <td>{{ s.course.cname }}</td>
+                                                    <td>{{ s.course.teacher }}</td>
+                                                    <td>{{ s.course.credit }}</td>
+                                                    <td>{{ s.course.grades }}</td>
+                                                    <td>{{ s.course.cancel_year }}</td>
+                                                </tr>
+                                                {% endfor %}
+
+                                            </tbody>
+
+                                        </table>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </div>
+
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="{% static 'vendor/metisMenu/metisMenu.min.js' %}"></script>
+
+    <!-- Morris Charts JavaScript -->
+    <script src="{% static 'vendor/raphael/raphael.min.js' %}"></script>
+    <script src="{% static 'vendor/morrisjs/morris.min.js' %}"></script>
+    <script src="{% static 'data/morris-data.js' %}"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="{% static 'dist/js/sb-admin-2.js' %}"></script>
+
+</body>
+
+</html>
+

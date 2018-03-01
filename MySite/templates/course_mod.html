@@ -1,0 +1,151 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Select Course</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="{% static 'vendor/metisMenu/metisMenu.min.css' %}" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="{% static 'dist/css/sb-admin-2.css' %}" rel="stylesheet">
+
+    <!-- Morris Charts CSS -->
+    <link href="{% static 'vendor/morrisjs/morris.css' %}" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="{% static 'vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- nav -->
+        {% include 'nav.html' %}
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Courses</h1>
+                </div>
+                <!-- 大标题 -->
+            </div>
+
+            <div class="row">
+                <div class="col-lg-8">
+                    <!--填写信息-->
+                    <div class="form row">
+                        <form action="{% url 'course_find1' %}" method="post" class="form-horizontal col-sm-offset-3 col-md-offset-3" >
+                            {% if code == None %}
+                            <h3 class="form-title">Please enter the id or the name: </h3>
+                                <!-- 搜索框 -->
+                                <br>
+                                <div class="sidebar-search">
+                                    <div class="input-group custom-search-form">
+                                        <input type="text" name = "key" class="form-control" placeholder="Search courses">
+                                        <span class="input-group-btn">
+                                        <button class="btn btn-default" type="submit">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </span>
+                                    </div>
+                                    <!-- /input-group -->
+                                </div>
+                            {% endif %}
+
+                            {% if code != None and code == -1 %}
+                            <h3 class="form-title" style="color:red">Not Found</h3>
+                            {% endif %}
+                        </form>
+                        <form action="{% url 'mod_course' %}" method="post" class="form-horizontal col-sm-offset-3 col-md-offset-3" id="register_form">
+                            {% if code != None and code == 0 %}
+                            <h3 class="form-title" style="color:green">{{ ss }}</h3>
+
+                            <br>
+                            <div class="col-sm-9 col-md-9">
+                                <div class="form-group">
+                                    <label >课程编号:</label>
+                                    <input class="form-control required" type="text" value="{{ sel. }}" placeholder="7位" name="cid"/>
+                                </div>
+                                <div class="form-group">
+                                    <label >课程名字:</label>
+                                    <input class="form-control required" type="text" placeholder="课程名字" name="cname"/>
+                                </div>
+                                <div class="form-group">
+                                    <label >教师:</label><br>
+                                    <input class="form-control required" type="text" placeholder="教师姓名" name="teacher"/>
+                                </div>
+                                <div class="form-group">
+                                    <label >学分:</label>
+                                    <input class="form-control required" type="text" placeholder="1-8" name="credit"/>
+                                </div>
+                                <div class="form-group">
+                                    <label >年级:</label>
+                                    <input class="form-control required" type="text" placeholder="eg:2015" name="grades"/>
+                                </div>
+                                <div class="form-group">
+                                    <label >取消年份:</label>
+                                    <input class="form-control required" type="text" placeholder="eg:2020" name="cancel_year"/>
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" class="btn btn-success pull-right" value="Confirm "/>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </form>
+                    </div>
+
+
+
+                </div>
+            </div>
+
+
+
+
+        </div>
+
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="{% static 'vendor/metisMenu/metisMenu.min.js' %}"></script>
+
+    <!-- Morris Charts JavaScript -->
+    <script src="{% static 'vendor/raphael/raphael.min.js' %}"></script>
+    <script src="{% static 'vendor/morrisjs/morris.min.js' %}"></script>
+    <script src="{% static 'data/morris-data.js' %}"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="{% static 'dist/js/sb-admin-2.js' %}"></script>
+
+</body>
+
+</html>
+
